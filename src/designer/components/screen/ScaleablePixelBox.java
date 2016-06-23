@@ -9,6 +9,7 @@ import javax.swing.event.MouseInputListener;
 @SuppressWarnings("serial")
 public class ScaleablePixelBox extends JPanel implements MouseInputListener
 {
+	private static volatile LineBorder border = new LineBorder(Color.GRAY, 1);
 	//for use in palette and main image design screen
 	private boolean mouseisover=false;
 	public volatile int size = 50;
@@ -17,12 +18,13 @@ public class ScaleablePixelBox extends JPanel implements MouseInputListener
 
 	Thread thread;
 
-	public ScaleablePixelBox(Thread thread, Color colorinit, EditorScreen parent)
+	public ScaleablePixelBox(Thread thread, Color colorinit, EditorScreen parent, boolean hasborder)
 	{
 		this.parent=parent;
 		this.thread = thread;
 		this.setBackground(colorinit);
-		this.setBorder(new LineBorder(Color.GRAY, 1));
+		if(hasborder)
+			this.setBorder(border);
 		this.addMouseListener(this);
 		//size = Math.min(this.getParent().getWidth(),this.getParent().getHeight());
 		this.setSize(size, size);

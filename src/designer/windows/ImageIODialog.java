@@ -1,4 +1,4 @@
-package designer;
+package designer.windows;
 import java.awt.Component;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -23,7 +23,7 @@ public class ImageIODialog
 				file = new File(path+=fileext);
 			try
 			{
-				ImageIO.write(data, "PNG", file);
+				ImageIO.write(data, fileext.substring(1).toUpperCase(), file);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

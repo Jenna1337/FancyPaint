@@ -1,16 +1,19 @@
 package designer.components.menu;
 
+import java.awt.Component;
+import java.awt.Dimension;
 import java.io.IOException;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import designer.ImageIODialog;
-import designer.SizePopUp;
+import javax.swing.JScrollPane;
 import designer.components.screen.EditorScreen;
+import designer.components.screen.ScaleablePixelBox;
+import designer.windows.ImageIODialog;
+import designer.windows.SizePopUp;
 
 @SuppressWarnings("serial")
 public class DesignerMenuBar extends JMenuBar
@@ -46,7 +49,17 @@ public class DesignerMenuBar extends JMenuBar
 		file.add(load);
 		file.add(save);
 		this.add(file);
-		this.add(panel.palette);
+		
+		//TODO
+		JPanel palpal = new JPanel();
+		for(Component c:panel.palette.getComponents())
+			if(c.getClass().equals(ScaleablePixelBox.class))
+				palpal.add(c);
+		palpal.setPreferredSize(new Dimension(700, 700));
+		JScrollPane palscroll = new JScrollPane(palpal, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		JMenu palmenu = new JMenu("Palette");
+		palmenu.add(palscroll);
+		this.add(palmenu);
 	}
 	
 }

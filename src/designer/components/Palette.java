@@ -1,7 +1,8 @@
-package designer;
+package designer.components;
 
 import java.awt.Color;
 import javax.swing.JPanel;
+import designer.Colors;
 import designer.components.screen.EditorScreen;
 import designer.components.screen.ScaleablePixelBox;
 
@@ -12,12 +13,16 @@ public class Palette extends JPanel
 	public Palette(EditorScreen parent)
 	{
 		setSelectedColor(Color.BLACK);
-		for(Color color : Colors.getColors())
-			this.add(new ScaleablePixelBox(new Thread(new Runnable(){
+		for(Colors color : Colors.values())
+		{
+			ScaleablePixelBox newbox = new ScaleablePixelBox(new Thread(new Runnable(){
 				public void run(){
-					setSelectedColor(color);
+					setSelectedColor(color.getColor());
 				}
-			}), color, parent));
+			}), color.getColor(), parent, true);
+			newbox.setToolTipText(color.toString());
+			this.add(newbox);
+		}
 	}
 	public Color getSelectedColor() {
 		return this.currentcolor;

@@ -5,30 +5,33 @@ import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.swing.JPanel;
-import designer.Palette;
+import designer.components.Palette;
 
 @SuppressWarnings("serial")
 public class EditorScreen extends JPanel
 {
 	private volatile EditorScreen designer=this;
 	public volatile boolean mousedown=false;
-	private Palette palette = new Palette(this);
+	public final Palette palette = new Palette(this);
 	private int imgtype=BufferedImage.TYPE_4BYTE_ABGR;
-	private BufferedImage img=new BufferedImage((short)(10+Short.MIN_VALUE),(short)(10+Short.MIN_VALUE), imgtype);
+	private BufferedImage img=new BufferedImage(100,100, imgtype);
+	private GridLayout layout=new GridLayout(this.img.getHeight(), this.img.getWidth());
 	
 	public EditorScreen()
 	{
 		resizeCanvas();
+		this.setGaps(1, Color.GRAY);
 	}
 	public void repaintCanvas()
 	{
 		this.getParent().repaint();
+		this.setGaps(1, Color.GRAY);
 		//TODO?
 	}
 	private void resizeCanvas()
 	{
 		this.removeAll();
-		this.setLayout(new GridLayout(this.img.getHeight(), this.img.getWidth()));
+		this.setLayout(layout);
 		System.out.println(this.img.getHeight()+" "+this.img.getWidth());
 		int i=0;
 		for(int ix=0; ix<this.img.getWidth(); ++ix)
@@ -45,7 +48,7 @@ public class EditorScreen extends JPanel
 						designer.getComponent(ti).setBackground(palette.getSelectedColor());
 						img.setRGB(cix, ciy, palette.getSelectedColor().getRGB());;
 					}
-				}, new Color(img.getRGB(ix, iy)), this));
+				}, new Color(img.getRGB(ix, iy)), this, false));
 			}
 		}
 		this.revalidate();
@@ -66,5 +69,13 @@ public class EditorScreen extends JPanel
 		this.img=img;
 		this.resizeCanvas();
 		this.repaintCanvas();
+	}
+	public void setGaps(int gap, Color color)
+	{
+		layout.setHgap(gap);
+		layout.setVgap(gap);
+		this.setLayout(layout);
+		this.setBackground(color);
+		this.revalidate();
 	}
 }
