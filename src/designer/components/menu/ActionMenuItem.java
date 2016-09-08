@@ -1,25 +1,25 @@
 package designer.components.menu;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
 
+import java.io.File;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 import designer.components.ActionThread;
 
 @SuppressWarnings("serial")
-public class ActionMenuItem extends JMenuItem implements ActionListener
+public abstract class ActionMenuItem extends JMenuItem
 {
-	public ActionMenuItem(String label, Thread thread)
+	private final ActionThread action = new ActionThread(this, new Thread(){
+		public void run(){
+			onClick();
+		}
+	});
+	public ActionMenuItem(String label)
 	{
 		super();
-		this.addActionListener(this);
-		
-		this.setAction(new ActionThread(this, thread));
+		this.setAction(action);
 		this.setText(label);
 		this.setToolTipText(label);
-		this.addActionListener(this);
 	}
 	public void setIcon(String filename)
 	{
@@ -29,5 +29,5 @@ public class ActionMenuItem extends JMenuItem implements ActionListener
 		}
 		catch(Exception e){}
 	}
-	public void actionPerformed(ActionEvent arg0){}
+	public abstract void onClick();
 }

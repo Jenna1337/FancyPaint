@@ -13,10 +13,7 @@ import designer.components.ActionButton;
 @SuppressWarnings("serial")
 public class SizePopUp extends JDialog implements WindowListener
 {
-	private JPanel pane_btn=new JPanel(),
-					pane_in=new JPanel();
 	private JSpinner h, w;
-	private ActionButton button_ok, button_cancel;
 	/**
 	 * Set on close
 	 */
@@ -40,25 +37,28 @@ public class SizePopUp extends JDialog implements WindowListener
 		this.h=new JSpinner(new SpinnerNumberModel(10,0,9999,1));
 		this.w=new JSpinner(new SpinnerNumberModel(10,0,9999,1));
 		
+		JPanel pane_btn=new JPanel(),
+				pane_in=new JPanel();
+		
 		pane_in.add(h);
 		pane_in.add(w);
 		this.getContentPane().add(pane_in, BorderLayout.NORTH);
 		
 		SizePopUp mywindow=this;
-		this.button_ok=new ActionButton("OK", new Thread(new Runnable(){
-			public void run(){
+		ActionButton button_ok=new ActionButton("OK"){
+			public void onClick(){
 				mywindow.choice=0;
 				active=false;
 				mywindow.dispose();
 			}
-		}));
-		this.button_cancel=new ActionButton("Cancel", new Thread(new Runnable(){
-			public void run(){
+		};
+		ActionButton button_cancel=new ActionButton("Cancel"){
+			public void onClick(){
 				mywindow.choice=1;
 				active=false;
 				mywindow.dispose();
 			}
-		}));
+		};
 		
 		pane_btn.add(button_ok);
 		pane_btn.add(button_cancel);

@@ -8,11 +8,11 @@ import javax.swing.JFileChooser;
 
 public class ImageIODialog
 {
-	static String fileext=".png";
-	static ExtensionFileFilter filter = new ExtensionFileFilter("Portable Network Graphic", fileext);
+	private static String fileext=".png";
+	private static ExtensionFileFilter filter = new ExtensionFileFilter("Portable Network Graphic", fileext);
+	private static final JFileChooser fc = new JFileChooser();
 	public static void save(Component parent, BufferedImage data)
 	{
-		JFileChooser fc = new JFileChooser();
 		fc.addChoosableFileFilter(filter);
 		fc.setFileFilter(filter);
 		int returnVal = fc.showSaveDialog(parent);
@@ -31,7 +31,6 @@ public class ImageIODialog
 	}
 	public static BufferedImage open(Component parent)
 	{
-		JFileChooser fc = new JFileChooser();
 		fc.addChoosableFileFilter(filter);
 		fc.setFileFilter(filter);
 		int returnVal = fc.showOpenDialog(parent);
