@@ -12,7 +12,7 @@ public class Palette extends JPanel
 	private volatile Color currentcolor;
 	public Palette(EditorScreen parent)
 	{
-		setSelectedColor(Color.BLACK);
+		setSelectedColor(Color.WHITE);
 		for(Colors color : Colors.values())
 		{
 			ScaleablePixelBox newbox = new ScaleablePixelBox(new Thread(new Runnable(){

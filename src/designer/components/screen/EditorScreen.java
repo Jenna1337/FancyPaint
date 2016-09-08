@@ -34,13 +34,13 @@ public class EditorScreen extends JPanel
 		this.setLayout(layout);
 		System.out.println(this.img.getHeight()+" "+this.img.getWidth());
 		int i=0;
-		for(int ix=0; ix<this.img.getWidth(); ++ix)
+		for(int ix=0; ix<this.img.getHeight(); ++ix)
 		{
-			for(int iy=0; iy<this.img.getHeight(); ++iy)
+			for(int iy=0; iy<this.img.getWidth(); ++iy)
 			{
 				System.out.println(ix+" "+iy+" "+this.img.getHeight()+" "+this.img.getWidth());
-				final int cix = ix;
-				final int ciy = iy;
+				final int cix = iy;
+				final int ciy = ix;
 				final int ti=i++;
 				this.add(new ScaleablePixelBox(new Thread(){
 					public void run()
@@ -49,6 +49,8 @@ public class EditorScreen extends JPanel
 						img.setRGB(cix, ciy, palette.getSelectedColor().getRGB());;
 					}
 				}, new Color(img.getRGB(ix, iy)), this, false));
+				designer.getComponent(ti).setBackground(palette.getSelectedColor());
+				img.setRGB(cix, ciy, palette.getSelectedColor().getRGB());;
 			}
 		}
 		this.revalidate();
