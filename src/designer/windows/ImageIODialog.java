@@ -78,13 +78,9 @@ class ExtensionFileFilter extends javax.swing.filechooser.FileFilter {
 		else
 		{
 			String path = file.getAbsolutePath().toLowerCase();
-			for (int i = 0, n = extensions.length; i < n; i++)
-			{
-				String extension = extensions[i];
-				//if(path.endsWith(extension))
-				if(path.split(".")[path.split(".").length-1].equalsIgnoreCase(extension))
+			for (String extension : extensions)
+				if(path.endsWith(extension.toLowerCase()))
 					return true;
-			}
 		}
 		return false;
 	}

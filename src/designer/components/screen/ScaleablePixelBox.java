@@ -2,21 +2,24 @@ package designer.components.screen;
 
 import java.awt.Color;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
-import javax.swing.event.MouseInputListener;
 
+/**
+ * A JPanel that acts similar to a button.
+ * @author jonah.sloan
+ * @see #mouseisover
+ */
 @SuppressWarnings("serial")
-public class ScaleablePixelBox extends JPanel implements MouseInputListener
+public class ScaleablePixelBox extends JPanel implements MouseListener
 {
-	private static volatile LineBorder border = new LineBorder(Color.GRAY, 1);
-	//for use in palette and main image design screen
+	private static LineBorder border = new LineBorder(Color.GRAY, 1);
 	private boolean mouseisover=false;
-	public volatile int size = 50;
+	private int size = 50;
 	private Color color;
 	private volatile EditorScreen parent;
-
-	Thread thread;
+	private final Thread thread;
 
 	public ScaleablePixelBox(Thread thread, Color colorinit, EditorScreen parent, boolean hasborder)
 	{
@@ -56,8 +59,6 @@ public class ScaleablePixelBox extends JPanel implements MouseInputListener
 		runif();
 		parent.mousedown=false;
 	}
-	public void mouseDragged(MouseEvent arg0){}
-	public void mouseMoved(MouseEvent arg0){}
 	public boolean isMouseOver() {
 		return mouseisover;
 	}

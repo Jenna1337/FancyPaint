@@ -10,13 +10,12 @@ import designer.components.Palette;
 @SuppressWarnings("serial")
 public class EditorScreen extends JPanel
 {
-	private volatile EditorScreen designer=this;
-	public volatile boolean mousedown=false;
+	private volatile int imgheight=100, imgwidth=100;
+	protected volatile boolean mousedown=false;
 	public final Palette palette = new Palette(this);
 	private int imgtype=BufferedImage.TYPE_4BYTE_ABGR;
-	private BufferedImage img=new BufferedImage(100,100, imgtype);
-	private GridLayout layout=new GridLayout(this.img.getHeight(), this.img.getWidth());
-	
+	private GridLayout layout;
+	private volatile int[] data;
 	public EditorScreen()
 	{
 		resizeCanvas();
@@ -28,47 +27,66 @@ public class EditorScreen extends JPanel
 		this.setGaps(1, Color.GRAY);
 		//TODO?
 	}
+	private final EditorScreen editor = this;
 	private void resizeCanvas()
 	{
 		this.removeAll();
+		layout=new GridLayout(imgwidth, imgheight);
 		this.setLayout(layout);
-		System.out.println(this.img.getHeight()+" "+this.img.getWidth());
+		System.out.println(imgheight+" "+imgwidth);
+		data=new int[imgwidth*imgheight];
 		int i=0;
-		for(int ix=0; ix<this.img.getHeight(); ++ix)
+		for(int ix=0; ix<imgheight; ++ix)
 		{
-			for(int iy=0; iy<this.img.getWidth(); ++iy)
+			for(int iy=0; iy<imgwidth; ++iy)
 			{
-				System.out.println(ix+" "+iy+" "+this.img.getHeight()+" "+this.img.getWidth());
-				final int cix = iy;
-				final int ciy = ix;
-				final int ti=i++;
+				System.out.println(ix+" "+iy+" "+imgheight+" "+imgwidth);
+				final int ti=i;
 				this.add(new ScaleablePixelBox(new Thread(){
 					public void run()
 					{
-						designer.getComponent(ti).setBackground(palette.getSelectedColor());
-						img.setRGB(cix, ciy, palette.getSelectedColor().getRGB());;
+						editor.getComponent(ti).setBackground(palette.getSelectedColor());;
+						data[ti] = palette.getSelectedColor().getRGB();
 					}
-				}, new Color(img.getRGB(ix, iy)), this, false));
-				designer.getComponent(ti).setBackground(palette.getSelectedColor());
-				img.setRGB(cix, ciy, palette.getSelectedColor().getRGB());;
+				}, Color.WHITE, this, false));
+				data[i++] = Color.WHITE.getRGB();
 			}
 		}
 		this.revalidate();
 	}
 	public void newImg(int[] wh)
 	{
-		this.img = new BufferedImage(wh[0], wh[1], imgtype);
-		Thread.currentThread();
+		imgwidth=wh[0];
+		imgheight=wh[1];
 		Thread.yield();
 		this.resizeCanvas();
 	}
 	public BufferedImage getData()
 	{
-		return this.img;
+		BufferedImage img = new BufferedImage(imgwidth, imgheight, imgtype);
+		int i=0;
+		for(int x=0; x<imgheight; ++x)
+		{
+			for(int y=0; y<imgwidth; ++y)
+			{
+				img.setRGB(x, y, data[i++]);
+			}
+		}
+		return img;
 	}
 	public void setData(BufferedImage img) throws IOException
 	{
-		this.img=img;
+		imgwidth=img.getWidth();
+		imgheight=img.getHeight();
+		data = new int[imgwidth*imgheight];
+		int i=0;
+		for(int x=0; x<imgheight; ++x)
+		{
+			for(int y=0; y<imgwidth; ++y)
+			{
+				data[i++] = img.getRGB(x, y);
+			}
+		}
 		this.resizeCanvas();
 		this.repaintCanvas();
 	}

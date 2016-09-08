@@ -110,7 +110,7 @@ public class SizePopUp extends JDialog implements WindowListener
 
 	public int getInt(JSpinner field)
 	{
-		return Integer.parseInt(""+((Integer)field.getValue()+Short.MIN_VALUE));
+		return Integer.parseInt(""+((Integer)field.getValue()));
 	}
 }
 
