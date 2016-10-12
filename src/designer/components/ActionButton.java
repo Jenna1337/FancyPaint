@@ -8,11 +8,14 @@ import javax.swing.JButton;
 @SuppressWarnings("serial")
 public abstract class ActionButton extends JButton
 {
-	private final ActionThread action = new ActionThread(this, new Thread(){
-		public void run(){
+	private final ActionThread action = new ActionThread(this, new Thread()
+	{
+		public void run()
+		{
 			onClick();
 		}
 	});
+	
 	public ActionButton(String label)
 	{
 		super();
@@ -31,7 +34,9 @@ public abstract class ActionButton extends JButton
 		{
 			this.setIcon(new ImageIcon(ImageIO.read(new File(filename))));
 		}
-		catch(Exception e){}
+		catch(Exception e)
+		{
+		}
 	}
 	public abstract void onClick();
 }

@@ -22,30 +22,41 @@ public class DesignerMenuBar extends JMenuBar
 	public DesignerMenuBar(JFrame frame, EditorScreen panel)
 	{
 		JMenu file = new JMenu("File");
-		JMenuItem save = new ActionMenuItem("Save As..."){
-			public void onClick(){
+		JMenuItem save = new ActionMenuItem("Save As...")
+		{
+			public void onClick()
+			{
 				ImageIODialog.save(frame, panel.getData());
 			}
 		};
-		JMenuItem load = new ActionMenuItem("Open File..."){
-			public void onClick(){
-				try{
+		JMenuItem load = new ActionMenuItem("Open File...")
+		{
+			public void onClick()
+			{
+				try
+				{
 					panel.setData(ImageIODialog.open(frame));
-				}catch(IOException e){
-					JOptionPane.showOptionDialog(frame, "Error: could not read the file. \n Click OK to continue", "Warning", 
-							JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE,null, 
-							new String[]{"OK"}, "OK");
+				}
+				catch(IOException e)
+				{
+					JOptionPane.showOptionDialog(frame,
+							"Error: could not read the file. \n Click OK to continue",
+							"Warning", JOptionPane.DEFAULT_OPTION,
+							JOptionPane.ERROR_MESSAGE, null, new String[]{"OK"},
+							"OK");
 				}
 			}
 		};
-		JMenuItem NEW = new ActionMenuItem("New"){
-			public void onClick(){
+		JMenuItem NEW = new ActionMenuItem("New")
+		{
+			public void onClick()
+			{
 				SizePopUp szpop = new SizePopUp(frame);
 				szpop.waitfor();
-				/*Wait...*/
+				/* Wait... */
 				int[] wh = szpop.getSizeInts();
 				szpop.dispose();
-				if(wh!=null)
+				if(wh != null)
 					panel.newImg(wh);
 			}
 		};
@@ -54,13 +65,15 @@ public class DesignerMenuBar extends JMenuBar
 		file.add(save);
 		this.add(file);
 		
-		//TODO
+		// TODO
 		JPanel palpal = new JPanel();
-		for(Component c:panel.palette.getComponents())
+		for(Component c : panel.palette.getComponents())
 			if(c.getClass().equals(ScaleablePixelBox.class))
 				palpal.add(c);
 		palpal.setPreferredSize(new Dimension(700, 700));
-		JScrollPane palscroll = new JScrollPane(palpal, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		JScrollPane palscroll = new JScrollPane(palpal,
+				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		JMenu palmenu = new JMenu("Palette");
 		palmenu.add(palscroll);
 		this.add(palmenu);

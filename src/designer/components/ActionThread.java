@@ -3,7 +3,6 @@ package designer.components;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
 import javax.swing.AbstractAction;
 
 @SuppressWarnings("serial")
@@ -11,6 +10,7 @@ public class ActionThread extends AbstractAction implements KeyListener
 {
 	protected Object source;
 	protected Thread thread;
+	
 	public ActionThread(Object source, Thread thread)
 	{
 		this.source = source;

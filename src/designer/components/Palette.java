@@ -10,21 +10,27 @@ import designer.components.screen.ScaleablePixelBox;
 public class Palette extends JPanel
 {
 	private volatile Color currentcolor;
+	
 	public Palette(EditorScreen parent)
 	{
 		setSelectedColor(Color.BLACK);
 		for(Colors color : Colors.values())
 		{
-			ScaleablePixelBox newbox = new ScaleablePixelBox(new Thread(new Runnable(){
-				public void run(){
+			ScaleablePixelBox newbox = new ScaleablePixelBox(color.getColor(),
+					parent, true)
+			{
+				public void run()
+				{
 					setSelectedColor(color.getColor());
+					
 				}
-			}), color.getColor(), parent, true);
+			};
 			newbox.setToolTipText(color.toString());
 			this.add(newbox);
 		}
 	}
-	public Color getSelectedColor() {
+	public Color getSelectedColor()
+	{
 		return this.currentcolor;
 	}
 	public void setSelectedColor(Color selectedcolor)

@@ -10,12 +10,13 @@ import designer.components.Palette;
 @SuppressWarnings("serial")
 public class EditorScreen extends JPanel
 {
-	private volatile int imgheight=100, imgwidth=100;
-	protected volatile boolean mousedown=false;
+	private volatile int imgheight = 100, imgwidth = 100;
+	protected volatile boolean mousedown = false;
 	public final Palette palette = new Palette(this);
-	private int imgtype=BufferedImage.TYPE_4BYTE_ABGR;
+	private int imgtype = BufferedImage.TYPE_4BYTE_ABGR;
 	private GridLayout layout;
 	private volatile int[] data;
+	
 	public EditorScreen()
 	{
 		resizeCanvas();
@@ -25,30 +26,36 @@ public class EditorScreen extends JPanel
 	{
 		this.getParent().repaint();
 		this.setGaps(1, Color.GRAY);
-		//TODO?
+		// TODO?
 	}
+	
 	private final EditorScreen editor = this;
+	
 	private void resizeCanvas()
 	{
 		this.removeAll();
-		layout=new GridLayout(imgwidth, imgheight);
+		layout = new GridLayout(imgwidth, imgheight);
 		this.setLayout(layout);
-		System.out.println(imgheight+" "+imgwidth);
-		data=new int[imgwidth*imgheight];
-		int i=0;
-		for(int ix=0; ix<imgheight; ++ix)
+		System.out.println(imgheight + " " + imgwidth);
+		data = new int[imgwidth * imgheight];
+		int i = 0;
+		for(int ix = 0; ix < imgheight; ++ix)
 		{
-			for(int iy=0; iy<imgwidth; ++iy)
+			for(int iy = 0; iy < imgwidth; ++iy)
 			{
-				System.out.println(ix+" "+iy+" "+imgheight+" "+imgwidth);
-				final int ti=i;
-				this.add(new ScaleablePixelBox(new Thread(){
+				System.out.println(
+						ix + " " + iy + " " + imgheight + " " + imgwidth);
+				final int ti = i;
+				this.add(new ScaleablePixelBox(Color.WHITE, this, false)
+				{
 					public void run()
 					{
-						editor.getComponent(ti).setBackground(palette.getSelectedColor());;
+						editor.getComponent(ti)
+								.setBackground(palette.getSelectedColor());
+						;
 						data[ti] = palette.getSelectedColor().getRGB();
 					}
-				}, Color.WHITE, this, false));
+				});
 				data[i++] = Color.WHITE.getRGB();
 			}
 		}
@@ -56,18 +63,18 @@ public class EditorScreen extends JPanel
 	}
 	public void newImg(int[] wh)
 	{
-		imgwidth=wh[0];
-		imgheight=wh[1];
+		imgwidth = wh[0];
+		imgheight = wh[1];
 		Thread.yield();
 		this.resizeCanvas();
 	}
 	public BufferedImage getData()
 	{
 		BufferedImage img = new BufferedImage(imgwidth, imgheight, imgtype);
-		int i=0;
-		for(int x=0; x<imgheight; ++x)
+		int i = 0;
+		for(int x = 0; x < imgheight; ++x)
 		{
-			for(int y=0; y<imgwidth; ++y)
+			for(int y = 0; y < imgwidth; ++y)
 			{
 				img.setRGB(x, y, data[i++]);
 			}
@@ -76,13 +83,13 @@ public class EditorScreen extends JPanel
 	}
 	public void setData(BufferedImage img) throws IOException
 	{
-		imgwidth=img.getWidth();
-		imgheight=img.getHeight();
-		data = new int[imgwidth*imgheight];
-		int i=0;
-		for(int x=0; x<imgheight; ++x)
+		imgwidth = img.getWidth();
+		imgheight = img.getHeight();
+		data = new int[imgwidth * imgheight];
+		int i = 0;
+		for(int x = 0; x < imgheight; ++x)
 		{
-			for(int y=0; y<imgwidth; ++y)
+			for(int y = 0; y < imgwidth; ++y)
 			{
 				data[i++] = img.getRGB(x, y);
 			}

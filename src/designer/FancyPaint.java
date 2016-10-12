@@ -9,6 +9,7 @@ public class FancyPaint extends JFrame
 {
 	EditorScreen panel = new EditorScreen();
 	JMenuBar menubar = new DesignerMenuBar(this, panel);
+	
 	public FancyPaint()
 	{
 		super("Fancy Paint");

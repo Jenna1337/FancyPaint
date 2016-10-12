@@ -19,6 +19,7 @@ public class SizePopUp extends JDialog implements WindowListener
 	 */
 	protected int[] wh;
 	private byte choice;
+	
 	public SizePopUp(JFrame parent)
 	{
 		super(parent);
@@ -34,28 +35,31 @@ public class SizePopUp extends JDialog implements WindowListener
 		this.addWindowListener(this);
 		
 		this.setLayout(new BorderLayout());
-		this.h=new JSpinner(new SpinnerNumberModel(10,0,9999,1));
-		this.w=new JSpinner(new SpinnerNumberModel(10,0,9999,1));
+		this.h = new JSpinner(new SpinnerNumberModel(10, 0, 9999, 1));
+		this.w = new JSpinner(new SpinnerNumberModel(10, 0, 9999, 1));
 		
-		JPanel pane_btn=new JPanel(),
-				pane_in=new JPanel();
+		JPanel pane_btn = new JPanel(), pane_in = new JPanel();
 		
 		pane_in.add(h);
 		pane_in.add(w);
 		this.getContentPane().add(pane_in, BorderLayout.NORTH);
 		
-		SizePopUp mywindow=this;
-		ActionButton button_ok=new ActionButton("OK"){
-			public void onClick(){
-				mywindow.choice=0;
-				active=false;
+		SizePopUp mywindow = this;
+		ActionButton button_ok = new ActionButton("OK")
+		{
+			public void onClick()
+			{
+				mywindow.choice = 0;
+				active = false;
 				mywindow.dispose();
 			}
 		};
-		ActionButton button_cancel=new ActionButton("Cancel"){
-			public void onClick(){
-				mywindow.choice=1;
-				active=false;
+		ActionButton button_cancel = new ActionButton("Cancel")
+		{
+			public void onClick()
+			{
+				mywindow.choice = 1;
+				active = false;
 				mywindow.dispose();
 			}
 		};
@@ -68,16 +72,20 @@ public class SizePopUp extends JDialog implements WindowListener
 		this.pack();
 		this.setVisible(true);
 	}
-	public volatile boolean active=true;
+	
+	public volatile boolean active = true;
+	
 	public byte waitfor()
 	{
-		try{
+		try
+		{
 			while(active)
 				Thread.sleep(1000);
 			this.dispose();
 			return 0;
 		}
-		catch(Exception e){
+		catch(Exception e)
+		{
 			this.dispose();
 			return 1;
 		}
@@ -89,28 +97,39 @@ public class SizePopUp extends JDialog implements WindowListener
 	 **/
 	public int[] getSizeInts()
 	{
-		if(this.choice!=0)
+		if(this.choice != 0)
 			return null;
-		int[] sa=new int[2];
+		int[] sa = new int[2];
 		sa[0] = getInt(this.w);
 		sa[1] = getInt(this.h);
 		return sa;
 	}
-	public void windowActivated(WindowEvent e){}
-	public void windowClosed(WindowEvent e){}
+	public void windowActivated(WindowEvent e)
+	{
+	}
+	public void windowClosed(WindowEvent e)
+	{
+	}
 	public void windowClosing(WindowEvent e)
 	{
 		wh = this.getSizeInts();
 		active = false;
 	}
-	public void windowDeactivated(WindowEvent e){}
-	public void windowDeiconified(WindowEvent e){}
-	public void windowIconified(WindowEvent e){}
-	public void windowOpened(WindowEvent e){}
-
+	public void windowDeactivated(WindowEvent e)
+	{
+	}
+	public void windowDeiconified(WindowEvent e)
+	{
+	}
+	public void windowIconified(WindowEvent e)
+	{
+	}
+	public void windowOpened(WindowEvent e)
+	{
+	}
+	
 	public int getInt(JSpinner field)
 	{
-		return Integer.parseInt(""+((Integer)field.getValue()));
+		return Integer.parseInt("" + ((Integer) field.getValue()));
 	}
 }
-

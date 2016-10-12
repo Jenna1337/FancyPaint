@@ -9,11 +9,14 @@ import designer.components.ActionThread;
 @SuppressWarnings("serial")
 public abstract class ActionMenuItem extends JMenuItem
 {
-	private final ActionThread action = new ActionThread(this, new Thread(){
-		public void run(){
+	private final ActionThread action = new ActionThread(this, new Thread()
+	{
+		public void run()
+		{
 			onClick();
 		}
 	});
+	
 	public ActionMenuItem(String label)
 	{
 		super();
@@ -27,7 +30,9 @@ public abstract class ActionMenuItem extends JMenuItem
 		{
 			this.setIcon(new ImageIcon(ImageIO.read(new File(filename))));
 		}
-		catch(Exception e){}
+		catch(Exception e)
+		{
+		}
 	}
 	public abstract void onClick();
 }
