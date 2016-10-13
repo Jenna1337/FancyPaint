@@ -16,15 +16,13 @@ public class Palette extends JPanel
 		setSelectedColor(Color.BLACK);
 		for(Colors color : Colors.values())
 		{
-			ScaleablePixelBox newbox = new ScaleablePixelBox(color.getColor(),
-					parent, true)
+			ScaleablePixelBox newbox = new ScaleablePixelBox(new Thread()
 			{
 				public void run()
 				{
 					setSelectedColor(color.getColor());
-					
 				}
-			};
+			}, color.getColor(), parent, true);
 			newbox.setToolTipText(color.toString());
 			this.add(newbox);
 		}

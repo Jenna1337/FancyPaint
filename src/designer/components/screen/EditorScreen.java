@@ -46,7 +46,7 @@ public class EditorScreen extends JPanel
 				System.out.println(
 						ix + " " + iy + " " + imgheight + " " + imgwidth);
 				final int ti = i;
-				this.add(new ScaleablePixelBox(Color.WHITE, this, false)
+				this.add(new ScaleablePixelBox(new Thread()
 				{
 					public void run()
 					{
@@ -55,7 +55,7 @@ public class EditorScreen extends JPanel
 						;
 						data[ti] = palette.getSelectedColor().getRGB();
 					}
-				});
+				}, Color.WHITE, this, false));
 				data[i++] = Color.WHITE.getRGB();
 			}
 		}
