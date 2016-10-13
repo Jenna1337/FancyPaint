@@ -6,7 +6,7 @@ import java.awt.event.KeyListener;
 import javax.swing.AbstractAction;
 
 @SuppressWarnings("serial")
-public class ActionThread extends AbstractAction implements KeyListener
+public class ActionThread extends AbstractAction
 {
 	protected Object source;
 	protected Thread thread;
@@ -23,20 +23,5 @@ public class ActionThread extends AbstractAction implements KeyListener
 		{
 			this.thread.run();
 		}
-	}
-	public void keyPressed(KeyEvent arg0)
-	{
-		if(this.source.equals(arg0.getSource()))
-		{
-			this.thread.run();
-		}
-	}
-	@Override
-	public void keyReleased(KeyEvent e)
-	{
-	}
-	@Override
-	public void keyTyped(KeyEvent e)
-	{
 	}
 }

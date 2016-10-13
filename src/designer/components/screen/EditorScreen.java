@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.swing.JPanel;
+import java.awt.Graphics;
 import designer.components.Palette;
 
 @SuppressWarnings("serial")
@@ -50,9 +51,9 @@ public class EditorScreen extends JPanel
 				{
 					public void run()
 					{
-						editor.getComponent(ti)
-								.setBackground(palette.getSelectedColor());
-						;
+						java.awt.Component c = editor.getComponent(ti);
+						c.setBackground(palette.getSelectedColor());
+						editor.repaint();
 						data[ti] = palette.getSelectedColor().getRGB();
 					}
 				}, Color.WHITE, this, false));

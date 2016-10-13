@@ -18,7 +18,6 @@ public class ScaleablePixelBox extends JPanel implements MouseListener
 	private static LineBorder border = new LineBorder(Color.GRAY, 1);
 	private boolean mouseisover = false;
 	private int size = 50;
-	private Color color;
 	private volatile EditorScreen parent;
 	private final Thread thread;
 	
@@ -71,14 +70,6 @@ public class ScaleablePixelBox extends JPanel implements MouseListener
 	public boolean isMouseDown()
 	{
 		return parent.mousedown;
-	}
-	public Color getColor()
-	{
-		return color;
-	}
-	public void setColor(Color color)
-	{
-		this.color = color;
 	}
 	@Override
 	public java.awt.Dimension getPreferredSize()
