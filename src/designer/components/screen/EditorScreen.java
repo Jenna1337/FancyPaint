@@ -5,13 +5,12 @@ import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.swing.JPanel;
-import java.awt.Graphics;
 import designer.components.Palette;
 
 @SuppressWarnings("serial")
 public class EditorScreen extends JPanel
 {
-	private volatile int imgheight = 100, imgwidth = 100;
+	private volatile int imgheight = 32, imgwidth = 32;
 	protected volatile boolean mousedown = false;
 	public final Palette palette = new Palette(this);
 	private int imgtype = BufferedImage.TYPE_4BYTE_ABGR;
@@ -21,13 +20,6 @@ public class EditorScreen extends JPanel
 	public EditorScreen()
 	{
 		resizeCanvas();
-		this.setGaps(1, Color.GRAY);
-	}
-	public void repaintCanvas()
-	{
-		this.getParent().repaint();
-		this.setGaps(1, Color.GRAY);
-		// TODO?
 	}
 	
 	private final EditorScreen editor = this;
@@ -60,6 +52,7 @@ public class EditorScreen extends JPanel
 				data[i++] = Color.WHITE.getRGB();
 			}
 		}
+		this.setGaps(1, Color.GRAY);
 		this.revalidate();
 	}
 	public void newImg(int[] wh)
@@ -96,7 +89,6 @@ public class EditorScreen extends JPanel
 			}
 		}
 		this.resizeCanvas();
-		this.repaintCanvas();
 	}
 	public void setGaps(int gap, Color color)
 	{
