@@ -9,25 +9,31 @@ import javax.swing.JFileChooser;
 
 public class ImageIODialog
 {
-	private static String fileext = ".png";
-	private static ExtensionFileFilter filter = new ExtensionFileFilter(
-			"Portable Network Graphic", fileext);
+	private static ExtensionFileFilter[] filters = new ExtensionFileFilter[]{
+			new ExtensionFileFilter("Portable Network Graphic", ".png"),
+			new ExtensionFileFilter("Bitmap Image", ".bmp"),
+			new ExtensionFileFilter("JPEG Image", ".jpg", ".jpeg"),
+	};
 	private static final JFileChooser fc = new JFileChooser();
 	
 	public static void save(Component parent, BufferedImage data)
 	{
-		fc.addChoosableFileFilter(filter);
-		fc.setFileFilter(filter);
+		for(ExtensionFileFilter filter : filters)
+			fc.addChoosableFileFilter(filter);
+		fc.setFileFilter(filters[0]);
 		int returnVal = fc.showSaveDialog(parent);
 		if(returnVal == JFileChooser.APPROVE_OPTION)
 		{
 			File file = fc.getSelectedFile();
-			String path = file.getPath();
-			if(!file.exists() && !path.endsWith(fileext))
-				file = new File(path += fileext);
+			@SuppressWarnings("unused")
+			boolean b = fc.getFileFilter().accept(file);
+			String[] ext = ((ExtensionFileFilter)fc.getFileFilter()).extensions;
+			if(!file.exists() && !fc.getFileFilter().accept(file))
+				file = new File(file.getPath() + ext[0]);
 			try
 			{
-				ImageIO.write(data, fileext.substring(1).toUpperCase(), file);
+				if(!ImageIO.write(data, ext[0].substring(1).toUpperCase(), file))
+					throw new IOException("Cannot find writer for extension *"+ext[0]);
 			}
 			catch(IOException e)
 			{
@@ -37,8 +43,9 @@ public class ImageIODialog
 	}
 	public static BufferedImage open(Component parent)
 	{
-		fc.addChoosableFileFilter(filter);
-		fc.setFileFilter(filter);
+		for(ExtensionFileFilter filter : filters)
+			fc.addChoosableFileFilter(filter);
+		fc.setFileFilter(filters[0]);
 		int returnVal = fc.showOpenDialog(parent);
 		if(returnVal == JFileChooser.APPROVE_OPTION)
 		{

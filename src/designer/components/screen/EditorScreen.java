@@ -70,6 +70,7 @@ public class EditorScreen extends JPanel
 		{
 			for(int y = 0; y < imgwidth; ++y)
 			{
+				//TODO fix the bug here
 				img.setRGB(x, y, data[i++]);
 			}
 		}

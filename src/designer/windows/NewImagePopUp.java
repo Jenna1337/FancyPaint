@@ -3,40 +3,44 @@ package designer.windows;
 import java.awt.BorderLayout;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.awt.image.BufferedImage;
+import javax.swing.ComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
+import javax.swing.ListModel;
+import javax.swing.SpinnerListModel;
 import javax.swing.SpinnerNumberModel;
 import designer.components.ActionButton;
 
 @SuppressWarnings("serial")
-public class SizePopUp extends JDialog implements WindowListener
+public class NewImagePopUp extends JDialog implements WindowListener
 {
 	private JSpinner h, w;
+	private JComboBox<?> t;
 	/**
 	 * Set on close
 	 */
 	protected int[] wh;
 	private byte choice;
 	
-	public SizePopUp(JFrame parent)
+	public NewImagePopUp(JFrame parent)
 	{
 		super(parent);
 		this.init();
 	}
-	public SizePopUp()
-	{
-		this.init();
-	}
 	private void init()
 	{
-		this.setTitle("Choose Size");
+		this.setTitle("New Image");
 		this.addWindowListener(this);
 		
 		this.setLayout(new BorderLayout());
 		this.h = new JSpinner(new SpinnerNumberModel(10, 0, 9999, 1));
 		this.w = new JSpinner(new SpinnerNumberModel(10, 0, 9999, 1));
+		this.t = new JComboBox<Integer>(new Integer[]{BufferedImage.TYPE_4BYTE_ABGR, BufferedImage.TYPE_BYTE_BINARY});
 		
 		JPanel pane_btn = new JPanel(), pane_in = new JPanel();
 		
@@ -44,7 +48,9 @@ public class SizePopUp extends JDialog implements WindowListener
 		pane_in.add(w);
 		this.getContentPane().add(pane_in, BorderLayout.NORTH);
 		
-		SizePopUp mywindow = this;
+		this.getContentPane().add(t, BorderLayout.CENTER);
+		
+		NewImagePopUp mywindow = this;
 		ActionButton button_ok = new ActionButton("OK")
 		{
 			public void onClick()

@@ -13,7 +13,7 @@ import javax.swing.JScrollPane;
 import designer.components.screen.EditorScreen;
 import designer.components.screen.ScaleablePixelBox;
 import designer.windows.ImageIODialog;
-import designer.windows.SizePopUp;
+import designer.windows.NewImagePopUp;
 
 @SuppressWarnings("serial")
 public class DesignerMenuBar extends JMenuBar
@@ -51,7 +51,7 @@ public class DesignerMenuBar extends JMenuBar
 		{
 			public void onClick()
 			{
-				SizePopUp szpop = new SizePopUp(frame);
+				NewImagePopUp szpop = new NewImagePopUp(frame);
 				szpop.waitfor();
 				/* Wait... */
 				int[] wh = szpop.getSizeInts();
