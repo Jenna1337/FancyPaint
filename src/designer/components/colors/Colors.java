@@ -1,4 +1,4 @@
-package designer;
+package designer.components.colors;
 
 import java.awt.Color;
 

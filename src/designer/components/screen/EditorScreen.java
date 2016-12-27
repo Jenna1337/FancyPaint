@@ -5,7 +5,7 @@ import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.swing.JPanel;
-import designer.components.Palette;
+import designer.components.colors.Palette;
 
 @SuppressWarnings("serial")
 public class EditorScreen extends JPanel
@@ -32,13 +32,13 @@ public class EditorScreen extends JPanel
 	{
 		this.removeAll();
 		this.setLayout(layout);
-		System.out.println(this.img.getHeight()+" "+this.img.getWidth());
+		//System.out.println(this.img.getHeight()+" "+this.img.getWidth());
 		int i=0;
 		for(int ix=0; ix<this.img.getWidth(); ++ix)
 		{
 			for(int iy=0; iy<this.img.getHeight(); ++iy)
 			{
-				System.out.println(ix+" "+iy+" "+this.img.getHeight()+" "+this.img.getWidth());
+				//System.out.println(ix+" "+iy+" "+this.img.getHeight()+" "+this.img.getWidth());
 				final int cix = ix;
 				final int ciy = iy;
 				final int ti=i++;

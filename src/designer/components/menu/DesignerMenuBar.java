@@ -1,24 +1,18 @@
 package designer.components.menu;
 
-import java.awt.Component;
-import java.awt.Dimension;
 import java.io.IOException;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import designer.components.screen.EditorScreen;
-import designer.components.screen.ScaleablePixelBox;
 import designer.windows.ImageIODialog;
 import designer.windows.SizePopUp;
 
 @SuppressWarnings("serial")
 public class DesignerMenuBar extends JMenuBar
 {
-	
 	public DesignerMenuBar(JFrame frame, EditorScreen panel)
 	{
 		JMenu file = new JMenu("File");
@@ -51,14 +45,16 @@ public class DesignerMenuBar extends JMenuBar
 		this.add(file);
 		
 		//TODO
-		JPanel palpal = new JPanel();
-		for(Component c:panel.palette.getComponents())
-			if(c.getClass().equals(ScaleablePixelBox.class))
-				palpal.add(c);
-		palpal.setPreferredSize(new Dimension(700, 700));
-		JScrollPane palscroll = new JScrollPane(palpal, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		JMenu palmenu = new JMenu("Palette");
-		palmenu.add(palscroll);
+		final JFrame ccfrm = new JFrame("Palette");
+		ccfrm.add(panel.palette);
+		RunnableMenuItem palmenu = new RunnableMenuItem("Show Palette"){
+			public void run()
+			{
+				boolean visible = ccfrm.isVisible();
+				ccfrm.setVisible(!visible);
+				this.setText((visible ? "Show" : "Hide") + " Palette");
+			}
+		};
 		this.add(palmenu);
 	}
 	
