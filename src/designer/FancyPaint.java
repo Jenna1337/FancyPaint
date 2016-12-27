@@ -5,20 +5,17 @@ import javax.swing.JMenuBar;
 import designer.components.menu.DesignerMenuBar;
 import designer.components.screen.EditorScreen;
 
-public class FancyPaint
+public class FancyPaint extends JFrame
 {
-	JFrame frame = new JFrame("Tiny Image Editor");
 	EditorScreen panel = new EditorScreen();
-	JMenuBar menubar = new DesignerMenuBar(frame, panel);
+	JMenuBar menubar = new DesignerMenuBar(this, panel);
+	
 	public FancyPaint()
 	{
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setLayout(new java.awt.GridBagLayout());
-		frame.setContentPane(panel);
-		frame.setJMenuBar(menubar);
-	}
-	public void setVisible(boolean visibility)
-	{
-		frame.setVisible(visibility);
+		super("Fancy Paint");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLayout(new java.awt.GridBagLayout());
+		setContentPane(panel);
+		setJMenuBar(menubar);
 	}
 }

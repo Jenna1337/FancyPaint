@@ -1,14 +1,19 @@
 package designer.components.menu;
 
+import java.awt.Component;
+import java.awt.Dimension;
 import java.io.IOException;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import designer.components.screen.EditorScreen;
+import designer.components.screen.ScaleablePixelBox;
 import designer.windows.ImageIODialog;
-import designer.windows.SizePopUp;
+import designer.windows.NewImagePopUp;
 
 @SuppressWarnings("serial")
 public class DesignerMenuBar extends JMenuBar
@@ -16,29 +21,44 @@ public class DesignerMenuBar extends JMenuBar
 	public DesignerMenuBar(JFrame frame, EditorScreen panel)
 	{
 		JMenu file = new JMenu("File");
-		JMenuItem save = new RunnableMenuItem("Save As..."){
-					public void run(){
-						ImageIODialog.save(frame, panel.getData());}};
-		JMenuItem load = new ActionMenuItem("Open File...", new Thread(
-				new Runnable(){
-					public void run(){
-						try{
-							panel.setData(ImageIODialog.open(frame));
-						} catch (IOException e) {
-							JOptionPane.showOptionDialog(frame, "Error: could not read the file. \n Click OK to continue", "Warning", 
-									JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE,null, 
-									new String[]{"OK"}, "OK");
-						}}}));
-		JMenuItem NEW = new ActionMenuItem("New", new Thread(
-				new Runnable(){
-					public void run(){
-						SizePopUp szpop = new SizePopUp(frame);
-						szpop.waitfor();
-						/*Wait...*/
-						int[] wh = szpop.getSizeInts();
-						szpop.dispose();
-						if(wh!=null)
-							panel.newImg(wh);}}));
+		JMenuItem save = new ActionMenuItem("Save As...")
+		{
+			public void onClick()
+			{
+				ImageIODialog.save(frame, panel.getData());
+			}
+		};
+		JMenuItem load = new ActionMenuItem("Open File...")
+		{
+			public void onClick()
+			{
+				try
+				{
+					panel.setData(ImageIODialog.open(frame));
+				}
+				catch(IOException e)
+				{
+					JOptionPane.showOptionDialog(frame,
+							"Error: could not read the file. \n Click OK to continue",
+							"Warning", JOptionPane.DEFAULT_OPTION,
+							JOptionPane.ERROR_MESSAGE, null, new String[]{"OK"},
+							"OK");
+				}
+			}
+		};
+		JMenuItem NEW = new ActionMenuItem("New")
+		{
+			public void onClick()
+			{
+				NewImagePopUp szpop = new NewImagePopUp(frame);
+				szpop.waitfor();
+				/* Wait... */
+				int[] wh = szpop.getSizeInts();
+				szpop.dispose();
+				if(wh != null)
+					panel.newImg(wh);
+			}
+		};
 		file.add(NEW);
 		file.add(load);
 		file.add(save);
@@ -47,14 +67,25 @@ public class DesignerMenuBar extends JMenuBar
 		//TODO
 		final JFrame ccfrm = new JFrame("Palette");
 		ccfrm.add(panel.palette);
-		RunnableMenuItem palmenu = new RunnableMenuItem("Show Palette"){
-			public void run()
+		ActionMenuItem palit = new ActionMenuItem("Show Palette"){
+			public void onClick()
 			{
 				boolean visible = ccfrm.isVisible();
 				ccfrm.setVisible(!visible);
 				this.setText((visible ? "Show" : "Hide") + " Palette");
 			}
 		};
+		// TODO
+		JPanel palpal = new JPanel();
+		for(Component c : panel.palette.getComponents())
+			if(c.getClass().equals(ScaleablePixelBox.class))
+				palpal.add(c);
+		palpal.setPreferredSize(new Dimension(700, 700));
+		JScrollPane palscroll = new JScrollPane(palpal,
+				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		JMenu palmenu = new JMenu("Palette");
+		palmenu.add(palscroll);
 		this.add(palmenu);
 	}
 	

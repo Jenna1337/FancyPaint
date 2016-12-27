@@ -3,6 +3,8 @@ package designer.windows;
 import java.awt.BorderLayout;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.awt.image.BufferedImage;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -11,54 +13,58 @@ import javax.swing.SpinnerNumberModel;
 import designer.components.ActionButton;
 
 @SuppressWarnings("serial")
-public class SizePopUp extends JDialog implements WindowListener
+public class NewImagePopUp extends JDialog implements WindowListener
 {
-	private JPanel pane_btn=new JPanel(),
-					pane_in=new JPanel();
 	private JSpinner h, w;
-	private ActionButton button_ok, button_cancel;
+	private JComboBox<?> t;
 	/**
 	 * Set on close
 	 */
 	protected int[] wh;
 	private byte choice;
-	public SizePopUp(JFrame parent)
+	
+	public NewImagePopUp(JFrame parent)
 	{
 		super(parent);
 		this.init();
 	}
-	public SizePopUp()
-	{
-		this.init();
-	}
 	private void init()
 	{
-		this.setTitle("Choose Size");
+		this.setTitle("New Image");
 		this.addWindowListener(this);
 		
 		this.setLayout(new BorderLayout());
-		this.h=new JSpinner(new SpinnerNumberModel(10,0,9999,1));
-		this.w=new JSpinner(new SpinnerNumberModel(10,0,9999,1));
+		this.h = new JSpinner(new SpinnerNumberModel(10, 0, 9999, 1));
+		this.w = new JSpinner(new SpinnerNumberModel(10, 0, 9999, 1));
+		this.t = new JComboBox<Integer>(new Integer[]{BufferedImage.TYPE_4BYTE_ABGR, BufferedImage.TYPE_BYTE_BINARY});
+		
+		JPanel pane_btn = new JPanel(), pane_in = new JPanel();
 		
 		pane_in.add(h);
 		pane_in.add(w);
 		this.getContentPane().add(pane_in, BorderLayout.NORTH);
 		
-		SizePopUp mywindow=this;
-		this.button_ok=new ActionButton("OK", new Thread(new Runnable(){
-			public void run(){
-				mywindow.choice=0;
-				active=false;
+		this.getContentPane().add(t, BorderLayout.CENTER);
+		
+		NewImagePopUp mywindow = this;
+		ActionButton button_ok = new ActionButton("OK")
+		{
+			public void onClick()
+			{
+				mywindow.choice = 0;
+				active = false;
 				mywindow.dispose();
 			}
-		}));
-		this.button_cancel=new ActionButton("Cancel", new Thread(new Runnable(){
-			public void run(){
-				mywindow.choice=1;
-				active=false;
+		};
+		ActionButton button_cancel = new ActionButton("Cancel")
+		{
+			public void onClick()
+			{
+				mywindow.choice = 1;
+				active = false;
 				mywindow.dispose();
 			}
-		}));
+		};
 		
 		pane_btn.add(button_ok);
 		pane_btn.add(button_cancel);
@@ -68,16 +74,20 @@ public class SizePopUp extends JDialog implements WindowListener
 		this.pack();
 		this.setVisible(true);
 	}
-	public volatile boolean active=true;
+	
+	public volatile boolean active = true;
+	
 	public byte waitfor()
 	{
-		try{
+		try
+		{
 			while(active)
 				Thread.sleep(1000);
 			this.dispose();
 			return 0;
 		}
-		catch(Exception e){
+		catch(Exception e)
+		{
 			this.dispose();
 			return 1;
 		}
@@ -89,28 +99,39 @@ public class SizePopUp extends JDialog implements WindowListener
 	 **/
 	public int[] getSizeInts()
 	{
-		if(this.choice!=0)
+		if(this.choice != 0)
 			return null;
-		int[] sa=new int[2];
+		int[] sa = new int[2];
 		sa[0] = getInt(this.w);
 		sa[1] = getInt(this.h);
 		return sa;
 	}
-	public void windowActivated(WindowEvent e){}
-	public void windowClosed(WindowEvent e){}
+	public void windowActivated(WindowEvent e)
+	{
+	}
+	public void windowClosed(WindowEvent e)
+	{
+	}
 	public void windowClosing(WindowEvent e)
 	{
 		wh = this.getSizeInts();
 		active = false;
 	}
-	public void windowDeactivated(WindowEvent e){}
-	public void windowDeiconified(WindowEvent e){}
-	public void windowIconified(WindowEvent e){}
-	public void windowOpened(WindowEvent e){}
-
+	public void windowDeactivated(WindowEvent e)
+	{
+	}
+	public void windowDeiconified(WindowEvent e)
+	{
+	}
+	public void windowIconified(WindowEvent e)
+	{
+	}
+	public void windowOpened(WindowEvent e)
+	{
+	}
+	
 	public int getInt(JSpinner field)
 	{
-		return Integer.parseInt(""+((Integer)field.getValue()+Short.MIN_VALUE));
+		return Integer.parseInt("" + ((Integer) field.getValue()));
 	}
 }
-
