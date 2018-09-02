@@ -1,1 +1,1 @@
-# TinyImage
+# FancyPaint
